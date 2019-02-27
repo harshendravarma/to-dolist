@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+    <head>
+    
+
+    </head>
+    <body>
+        <input type="date" id="date_input">
+        <input type="text" id="text_input",value="add">
+        <button id="buttn" >add</button>
+        <div id="maindiv">
+        </div>
+
+    </body>
+</html>
+<script>
+     var buttn=document.getElementById("buttn");
+    buttn.addEventListener('click',addbuttn);
+    array=[];
+    function addbuttn()
+    { 
+        var date_value=document.getElementById("date_input").value;
+        var text_value=document.getElementById("text_input").value;
+        array.push({"date":date_value,"text":text_value});
+        load_table();
+    }
+    function delete_element(input1){
+        delete array[input1-1];
+        console.log(array);
+        var data_array=array.map((element,index)=>{return Object.values(array[index])});
+        console.log(data_array);
+    }
+    function load_table()
+    {
+        sort();
+        var data_array=array.map((element,index)=>{return Object.values(array[index])})
+        var table_var=document.getElementsByTagName('TABLE');
+        if(table_var[0]) table_var[0].remove();
+        var main_table=document.createElement('TABLE');
+        main_table.border=2;
+        //tablehead
+        var table_row1=document.createElement('tr');
+        var table_head1=document.createElement('th'); 
+        var head_data1=document.createTextNode("DATE");
+        var table_head2=document.createElement('th'); 
+        var head_data2=document.createTextNode("DESCRIPTION");
+        table_head1.appendChild(head_data1); 
+        table_head2.appendChild(head_data2); 
+        table_row1.appendChild(table_head1);
+        table_row1.appendChild(table_head2);
+        main_table.appendChild(table_row1);
+        //table body
+        for(var j=0;j<array.length;j++)
+        {
+            var table_row1=document.createElement('tr');
+            for(let i=0;i<2;i++)
+            {
+                var table_head=document.createElement('td');  
+                var head_data=document.createTextNode(data_array[j][i]);
+                table_head.appendChild(head_data);
+                table_row1.appendChild(table_head);
+            }
+            var table_head2=document.createElement('td');  
+            var head_data2=document.createTextNode("x");
+            table_head2.id="no"+j;
+            table_head2.addEventListener("click", function(){ delete_element(j);});
+            table_head2.appendChild(head_data2);
+            table_row1.appendChild(table_head2);
+            main_table.appendChild(table_row1);
+        }
+        maindiv.appendChild(main_table);
+
+
+    }
+    function sort()
+    {
+        array.sort(function(a, b){ var dateA=new Date(a.date), dateB=new Date(b.date) 
+        return dateA-dateB })
+        console.log(array);
+
+    }
+
+
+</script>
