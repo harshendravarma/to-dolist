@@ -25,14 +25,14 @@
         load_table();
     }
     function delete_element(input1){
-        delete array[input1-1];
+        console.log(input1);
+        array.splice(input1,1);
         console.log(array);
-        var data_array=array.map((element,index)=>{return Object.values(array[index])});
-        console.log(data_array);
+        load_table();
     }
     function load_table()
     {
-        sort();
+        //sort();
         var data_array=array.map((element,index)=>{return Object.values(array[index])})
         var table_var=document.getElementsByTagName('TABLE');
         if(table_var[0]) table_var[0].remove();
@@ -40,18 +40,23 @@
         main_table.border=2;
         //tablehead
         var table_row1=document.createElement('tr');
-        var table_head1=document.createElement('th'); 
+        var table_head_1=document.createElement('th'); 
         var head_data1=document.createTextNode("DATE");
-        var table_head2=document.createElement('th'); 
+        var table_head_2=document.createElement('th'); 
         var head_data2=document.createTextNode("DESCRIPTION");
-        table_head1.appendChild(head_data1); 
-        table_head2.appendChild(head_data2); 
-        table_row1.appendChild(table_head1);
-        table_row1.appendChild(table_head2);
+        table_head_1.appendChild(head_data1); 
+        table_head_2.appendChild(head_data2);
+        table_head_1.addEventListener("click",sort);
+        table_head_2.addEventListener("click",sort_d); 
+        table_row1.appendChild(table_head_1);
+        table_row1.appendChild(table_head_2);
         main_table.appendChild(table_row1);
         //table body
-        for(var j=0;j<array.length;j++)
+        
+        for(let j=0;j<array.length;j++)
         {
+            //console.log(j);
+            
             var table_row1=document.createElement('tr');
             for(let i=0;i<2;i++)
             {
@@ -62,11 +67,13 @@
             }
             var table_head2=document.createElement('td');  
             var head_data2=document.createTextNode("x");
-            table_head2.id="no"+j;
+            //table_head2.id="no"+j;
+            
             table_head2.addEventListener("click", function(){ delete_element(j);});
             table_head2.appendChild(head_data2);
             table_row1.appendChild(table_head2);
             main_table.appendChild(table_row1);
+            
         }
         maindiv.appendChild(main_table);
 
@@ -76,9 +83,23 @@
     {
         array.sort(function(input_1,input_2){ var dateA=new Date(input_1.date), dateB=new Date(input_2.date) 
         return dateA-dateB })
-        console.log(array);
+        load_table();
+        //console.log(array);
 
     }
+    function sort_d()
+    { 
+        array.sort(function(input_11,input_22){
+        var nameA=input_11.text.toLowerCase(), nameB=input_22.text.toLowerCase()
+        if (nameA < nameB) 
+        return -1 
+        if (nameA > nameB)
+        return 1
+        return 0 
+    })
+    load_table();
+    }
+    
 
 
 </script>
